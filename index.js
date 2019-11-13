@@ -3,7 +3,7 @@ const fs = require('fs');
 const readline = require('readline');
 const { google } = require('googleapis');
 const multer = require('multer');
-const upload = multer({ dest: __dirname + '/uploads/images' });
+const upload = multer({ dest: __dirname });
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
 const TOKEN_PATH = 'token.json';
 
