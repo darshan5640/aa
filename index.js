@@ -12,7 +12,7 @@ const app = express()
 app.use(express.static('public'));
 const PORT = process.env.PORT || 3000
 app.post('/upload', upload.single('photo'), (req, res) => {
-    fs.readFile('credentials.json', (err, content) => {
+    fs.readFile('drive.json', (err, content) => {
         if (err) return console.log('Error loading client secret file:', err);
         // Authorize a client with credentials, then call the Google Drive API.
         authorize(JSON.parse(content), upload);
