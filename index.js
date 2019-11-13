@@ -10,13 +10,14 @@ const TOKEN_PATH = 'token.json';
 
 const app = express()
 app.use(express.static('public'));
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 3000
 app.post('/upload', upload.single('photo'), (req, res) => {
-    fs.readFile('drive.json', (err, content) => {
-        if (err) return console.log('Error loading client secret file:', err);
-        // Authorize a client with credentials, then call the Google Drive API.
-        authorize(JSON.parse(content), upload);
-    });
+    // fs.readFile('drive.json', (err, content) => {
+    //     if (err) return console.log('Error loading client secret file:', err);
+    //     // Authorize a client with credentials, then call the Google Drive API.
+    //     authorize(JSON.parse(content), upload);
+    // });
+    authorize()
 
     /**
      * Create an OAuth2 client with the given credentials, and then execute the
@@ -24,16 +25,18 @@ app.post('/upload', upload.single('photo'), (req, res) => {
      * @param {Object} credentials The authorization client credentials.
      * @param {function} callback The callback to call with the authorized client.
      */
-    function authorize(credentials, callback) {
-        const { client_secret, client_id, redirect_uris } = credentials.installed;
+    function authorize() {
+        const client_secret = "f2X-KqvnX4UD2ByOvRxzevHS"
+        const client_id = "391107498186-ebu5kgs34ma2r70b5h8gdmkup618rmfk.apps.googleusercontent.com"
+        const redirect_uris = "http://localhost/drive/"
         const oAuth2Client = new google.auth.OAuth2(
-            client_id, client_secret, redirect_uris[0]);
+            client_id, client_secret, redirect_uris);
 
         // Check if we have previously stored a token.
         fs.readFile(TOKEN_PATH, (err, token) => {
             if (err) return getAccessToken(oAuth2Client, callback);
             oAuth2Client.setCredentials(JSON.parse(token));
-            callback(oAuth2Client);
+            upload(oAuth2Client);
         });
     }
     function getAccessToken(oAuth2Client, callback) {
