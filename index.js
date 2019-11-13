@@ -34,7 +34,7 @@ app.post('/upload', upload.single('photo'), (req, res) => {
 
         // Check if we have previously stored a token.
         fs.readFile(TOKEN_PATH, (err, token) => {
-            if (err) return getAccessToken(oAuth2Client, callback);
+            if (err) return getAccessToken(oAuth2Client, upload);
             oAuth2Client.setCredentials(JSON.parse(token));
             upload(oAuth2Client);
         });
