@@ -10,7 +10,7 @@ const TOKEN_PATH = 'token.json';
 
 const app = express()
 app.use(express.static('public'));
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 80
 app.post('/upload', upload.single('photo'), (req, res) => {
     fs.readFile('drive.json', (err, content) => {
         if (err) return console.log('Error loading client secret file:', err);
